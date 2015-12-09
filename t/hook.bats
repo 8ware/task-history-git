@@ -1,5 +1,8 @@
 #! /usr/bin/env bats
 
+load common
+
+
 # Tests whether the commit count is equal to the given number. Note, that the
 # initial commit is not counted, i.e. the given number has to be count-1.
 commit_count_eq() {
@@ -35,19 +38,6 @@ commit_patch_eq() {
 	grep -qP "$1" <<< "${lines[${2:--1}]}"
 }
 
-
-# Sets up a temporary task data directory, initializes the git repository and
-# symlinks the task hook to be tested.
-setup() {
-	export TASKDATA=$(mktemp -d)
-	touch "$TASKDATA/pending.data"
-	cd "$TASKDATA"
-	git init
-	git add "pending.data"
-	git commit -m "Initial commit"
-	mkdir "$TASKDATA/hooks"
-	ln -s "$BATS_TEST_DIRNAME/../on-exit_git.sh" "$TASKDATA/hooks"
-}
 
 @test "Commit task addition " {
 	task add "Test Task 1"
@@ -106,11 +96,4 @@ setup() {
 }
 
 # TODO Test completion/deletion of multiple tasks at once
-
-# Removes the temporary task data directory.
-teardown() {
-	cd "$OLDPWD"
-	echo "Removing $TASKDATA"
-	rm -rf "$TASKDATA"
-}
 
