@@ -60,3 +60,17 @@ diff_data() {
 	diff_data completed
 }
 
+@test "Generate backlog.data file (annotations)" {
+	task add "Test Task 6"
+	task 1 annotate "Test Annotation 1"
+
+	diff_data backlog
+}
+
+@test "Generate undo.data file (annotations)" {
+	task add "Test Task 7"
+	task 1 annotate "Test Annotation 2"
+
+	diff_data undo
+}
+
