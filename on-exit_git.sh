@@ -54,7 +54,9 @@ if [ ${#entries[@]} -gt 0 ]; then
 	done
 else
 	uuids=( $(git diff -U0 pending.data | grep '^-\[.\+\]$' | grep -oP 'uuid:"\K[0-9a-fA-F-]{36}(?=")') )
-	message+="Updated ${#uuids[@]} tasks: GC\n"
+	message+="Updated ${#uuids[@]} task"
+	[ ${#uuids[@]} -ne 1 ] && message+="s"
+	message+=": GC\n"
 	for uuid in "${uuids[@]}"; do
 		message+="\n* $uuid"
 	done
