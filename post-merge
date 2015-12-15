@@ -1,0 +1,30 @@
+#! /usr/bin/env bash
+
+GENERATE="$(dirname "$(readlink -f "$0")")/generate.sh"
+
+backup () {
+	[ -f "$1.data" ] && cp "$1.data" "$1.data.bak_$(date +%Y%m%d-%H%M%S)"
+}
+
+generate () {
+	"$GENERATE" "$1" > "$1.data"
+}
+
+error () {
+	if [ -t 1 ]; then
+		echo -e "\e[0;31m$1\e[0m" >&2
+	else
+		notify-send -u critical "Git @ ~/.task" "$1"
+	fi
+}
+
+if [ ! -f pending.data ]; then
+	error "Cannot generate data files!"
+	exit
+fi
+
+for data in completed undo backlog; do
+	backup $data
+	generate $data
+done
+
