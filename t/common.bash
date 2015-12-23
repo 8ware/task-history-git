@@ -11,7 +11,8 @@ setup() {
 	git add "pending.data"
 	git commit -m "Initial commit"
 	mkdir "$TASKDATA/hooks"
-	ln -s "$BATS_TEST_DIRNAME/../on-exit_git.sh" "$TASKDATA/hooks"
+	local base="${BATS_TEST_DIRNAME:-$(dirname "$BASH_SOURCE")}/.."
+	ln -s "$(readlink -f "$base")/on-exit_git.sh" "$TASKDATA/hooks"
 }
 
 # Removes the temporary task data directory.
