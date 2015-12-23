@@ -95,5 +95,14 @@ commit_patch_eq() {
 	commit_numstat_eq 0 1
 }
 
+@test "Git issue: ambiguous argument" {
+	cd "$HOME"
+	task add "Test Task 5" pro:Test
+	task all
+	task 1 done
+	task all
+	cd "$OLDPWD"
+}
+
 # TODO Test completion/deletion of multiple tasks at once
 
