@@ -22,3 +22,6 @@ teardown() {
 	rm -rf "$TASKDATA"
 }
 
+TASK=$(which task)
+task() { "$TASK" rc.context:none rc.confirmation:no "$@"; }
+

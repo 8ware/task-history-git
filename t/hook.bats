@@ -81,7 +81,7 @@ commit_patch_eq() {
 
 @test "Commit task deletion" {
 	task add "Test Task 4"
-	task rc.confirmation=off 1 delete
+	task 1 delete
 
 	commit_count_eq 2
 	commit_subject_eq '\bdelete\b'
